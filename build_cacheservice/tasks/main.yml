@@ -1,0 +1,10 @@
+---
+# tasks file for build_cacheservice
+- name: build container image
+  docker_image:
+    name: cacheservice:latest
+    build:
+      path: /home/taskn3/cacheservice
+      dockerfile: production.dockerfile
+    source: build
+    state: present

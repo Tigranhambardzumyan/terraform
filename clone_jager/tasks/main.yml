@@ -1,0 +1,12 @@
+---
+# tasks file for clone_jager
+- name: create a Dierectory
+  file:
+    path: /home/taskn3/jager-rd
+    state: directory
+
+- name: clone git repo
+  git:
+    repo: https://github.com/Tigranhambardzumyan/jager-rd.git
+    dest: /home/taskn3/jager-rd
+    force: yes
