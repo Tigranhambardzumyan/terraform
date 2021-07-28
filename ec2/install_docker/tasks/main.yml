@@ -1,0 +1,121 @@
+---
+# tasks file for install_docker
+   -
+    name: remove old docker
+    yum:
+      name:
+        - docker
+        - docker-client
+        - docker-client-latest
+        - docker-common
+        - docker-latest
+        - docker-latest-logrotate
+        - docker-logrotate
+        - docker-engine
+      state: removed
+    when: ansible_distribution == 'CentOS'
+   -
+    name: yum update
+    yum:
+     name: '*'
+     state: latest
+    when: ansible_distribution == 'CentOS'
+   -
+    name: instal packages
+    yum:
+     name:
+       - yum-utils
+       - device-mapper-persistent-data
+       - lvm2
+    when: ansible_distribution == 'CentOS'
+   - name: Add docker repo
+     get_url:
+       url: https://download.docker.com/linux/centos/docker-ce.repo
+       dest: /etc/yum.repos.d/docker-ce.repo
+     when: ansible_distribution == 'CentOS'
+   -
+     name: install docker
+     yum:
+       name:
+         - docker-ce
+         - docker-ce-cli
+         - containerd.io
+       state: latest
+     when: ansible_distribution == 'CentOS'
+
+   - name: Start Docker
+     service:
+       name: docker
+       state: started
+       enabled: yes
+     become: yes
+     when: ansible_distribution == 'CentOS'
+   -
+    apt:
+      name:
+        - docker
+        - docker-engine
+        - docker.io
+        - containerd
+        - runc
+      state: absent
+    when: ansible_distribution == 'Debian' or  ansible_distribution == 'Ubuntu'
+   -
+    apt:
+     name: '*'
+     state: latest
+     update_cache: yes
+     force_apt_get: yes
+    when: ansible_distribution == 'Debian' or  ansible_distribution == 'Ubuntu'
+   -
+    become: yes
+    apt:
+     name:
+       - apt-transport-https
+       - ca-certificates
+       - curl
+       - gnupg
+       - lsb-release
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+   - name: Add Apt signing key from official docker repo
+     apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+   - name: Add docker repo
+     apt_repository:
+       repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
+       state: present
+     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+   - name: Index new repo into the cache
+     become: yes
+     apt:
+       name: "*"
+       state: latest
+       update_cache: yes
+       force_apt_get: yes
+     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+   - name: Installing docker
+     package:
+       name:
+         - docker-ce
+         - docker-ce-cli
+         - containerd.io
+       state: latest
+     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+   - name: Start Docker
+     service:
+       name: docker
+       state: started
+       enabled: yes
+     become: yes
+     when: ansible_distribution == 'Debian' or  ansible_distribution == 'Ubuntu'
+
+   - name: Install docker-compose
+
+     get_url:
+       url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+       dest: /usr/local/bin/docker-compose
+       mode: 'u+x,g+x'

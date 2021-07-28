@@ -1,0 +1,11 @@
+---
+# tasks file for build_pinger
+- name: build container image
+  docker_image:
+    name: pinger:latest
+    build:
+      path: /home/taskn3/ruby-pinger
+      dockerfile: Dockerfile
+    source: build
+    state: present
+

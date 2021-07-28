@@ -1,0 +1,6 @@
+---
+# tasks file for give_permission
+-  name: start docker compose
+   shell: chmod +rwx wait-for
+   args:
+    chdir: /home/taskn3/jager-rd

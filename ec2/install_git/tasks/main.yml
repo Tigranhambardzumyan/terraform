@@ -1,0 +1,10 @@
+---
+# tasks file for install_git
+- name: Install git
+  package:
+    name: git
+    state: present
+- name: install python3-docker
+  package:
+    name: python3-docker
+    state: present

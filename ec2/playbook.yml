@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  name: decrypt PEM
+  become_method: sudo
+  become: yes
+  tasks:
+   - shell: ansible-vault decrypt /home/ec2/key.pem --vault-password-file secret.txt 
+   
+
+- hosts: ec2
+  name: Install git on ansible host
+  become: yes
+  become_method: sudo
+  roles:
+   - install_git
+   - install_docker
+   - clone_jager
+   - clone_pinger
+   - clone_cacheservice
+   - build_cacheservice
+   - build_pinger
+   - give_permission
+   - compose_up
+
+
+- hosts: localhost
+  name: decrypt PEM
+  become_method: sudo
+  become: yes
+  tasks:
+   - shell: ansible-vault encrypt /home/ec2/key.pem --vault-password-file secret.txt

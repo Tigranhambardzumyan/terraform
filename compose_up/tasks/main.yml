@@ -1,0 +1,6 @@
+---
+# tasks file for compose_up
+-  name: start docker compose
+   shell: docker-compose up -d
+   args:
+    chdir: /home/taskn3/jager-rd

@@ -1,0 +1,12 @@
+---
+# tasks file for clone_pinger
+- name: create a Dierectory
+  file:
+    path: /home/taskn3/ruby-pinger
+    state: directory
+
+- name: clone git repo
+  git:
+    repo: https://github.com/Tigranhambardzumyan/ruby-pinger.git
+    dest: /home/taskn3/ruby-pinger
+    force: yes

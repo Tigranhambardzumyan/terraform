@@ -1,0 +1,1 @@
+ec2 ansible_conection=ssh ansible_port=1122 ansible_user=ubuntu ansible_ssh_host=3.66.133.13 ansible_private_key_file=/home/ec2/key.pem

@@ -1,0 +1,12 @@
+---
+# tasks file for clone_cacheservice
+- name: create a Dierectory
+  file:
+    path: /home/taskn3/cacheservice
+    state: directory
+
+- name: clone git repo
+  git:
+    repo: https://github.com/Tigranhambardzumyan/cacheservice.git
+    dest: /home/taskn3/cacheservice
+    force: yes
